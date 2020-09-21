@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var assert = require('assert');
 var debug = require('debug')('docker-exec-websocket-server:lib:client');
 var debugdata = require('debug')('docker-exec-websocket-server:lib:rcv');
@@ -13,11 +12,12 @@ var BROWSER = typeof window === 'undefined';
 class DockerExecWebsocketClient extends EventEmitter {
   constructor(options) {
     super();
-    this.options = _.defaults({}, options, {
+    this.options = {
       tty: true,
       command: 'sh',
       wsopts: {},
-    });
+      ...options,
+    };
   }
 
   /* Makes a client program with unbroken stdin, stdout, stderr streams
