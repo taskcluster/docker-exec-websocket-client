@@ -1,7 +1,7 @@
 # docker-exec-websocket-client
 
 ## Purpose
-Client for docker-exec-websocket-server.
+Client for [docker-exec-websocket-server](https://github.com/taskcluster/docker-exec-websocket-server).
 
 ## Usage
 Client:
@@ -37,8 +37,9 @@ To test locally:
 
 * Run ``yarn install`` to install the dependencies, including developer dependencies
 * Run ``yarn test``
+* You can pass environment variables and commands to mocha as well, such as ``DEBUG=* yarn test -f 'docker exec wc'``
 
-To test with ``docker-compose``:
+To test with ``docker-compose``, similar to CI:
 
 * Run ``docker-compose build --build-arg NODE_VERSION=16-bullseye``, or change to the desired
   [Node.js image tag](https://hub.docker.com/_/node/)
