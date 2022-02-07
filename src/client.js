@@ -1,6 +1,6 @@
 var assert = require('assert');
-var debug = require('debug')('docker-exec-websocket-server:lib:client');
-var debugdata = require('debug')('docker-exec-websocket-server:lib:rcv');
+var debug = require('debug')('docker-exec-websocket-client:lib:client');
+var debugdata = require('debug')('docker-exec-websocket-client:lib:rcv');
 var EventEmitter = require('events').EventEmitter;
 var msgcode = require('./messagecodes.js');
 var querystring = require('querystring');
@@ -120,7 +120,7 @@ class DockerExecWebsocketClient extends EventEmitter {
   }
 
   messageHandler(messageEvent) {
-    var message = new Buffer(new Uint8Array(messageEvent.data));
+    var message = Buffer.from(new Uint8Array(messageEvent.data));
     debugdata(message);
     // the first byte is the message code
     switch (message[0]) {
@@ -177,7 +177,7 @@ class DockerExecWebsocketClient extends EventEmitter {
     if (!this.options.tty) {
       throw new Error('cannot resize, not a tty instance');
     } else {
-      var buf = new Buffer(4);
+      var buf = Buffer.alloc(4);
       buf.writeUInt16LE(h, 0);
       buf.writeUInt16LE(w, 2);
       debug('resized to %sx%s', h, w);
@@ -186,11 +186,11 @@ class DockerExecWebsocketClient extends EventEmitter {
   }
 
   sendCode(code) {
-    this.strbuf.write(new Buffer([code]));
+    this.strbuf.write(Buffer.from([code]));
   }
 
   sendMessage(code, data) {
-    this.strbuf.write(Buffer.concat([new Buffer([code]), new Buffer(data)]));
+    this.strbuf.write(Buffer.concat([Buffer.from([code]), Buffer.from(data)]));
   }
 
   close() {
